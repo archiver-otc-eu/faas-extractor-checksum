@@ -2,7 +2,6 @@ FROM openfaas/classic-watchdog:0.18.1 as watchdog
 
 FROM docker.onedata.org/onedatafs-jupyter:ID-ff8046e981
 
-
 # Allows you to add additional packages via build-arg
 ARG ADDITIONAL_PACKAGE
 
@@ -20,12 +19,11 @@ COPY requirements.txt   .
 
 RUN chown -R app /home/app && \
   mkdir -p /home/app/python && chown -R app /home/app
-USER app
+
 ENV PATH=$PATH:/home/app/.local/bin:/home/app/python/bin/
 ENV PYTHONPATH=$PYTHONPATH:/home/app/python
 
 RUN python3 -m pip install --system -r requirements.txt -t /home/app/python
-
 
 RUN mkdir -p function
 RUN touch ./function/__init__.py
@@ -45,7 +43,6 @@ COPY function           function
 RUN chown -R app:app ./ && \
   chmod -R 777 /home/app/python
 
-USER app
 
 ENV fprocess="python3 index.py"
 EXPOSE 8080

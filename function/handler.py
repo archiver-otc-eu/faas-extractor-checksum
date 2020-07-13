@@ -15,7 +15,7 @@ def handle(req: bytes):
     args = json.loads(req)
 
     odfs = OnedataFS(args["host"], args["accessToken"],
-                     force_proxy_io=True,
+                     force_direct_io=True,
                      insecure=True)
 
 
